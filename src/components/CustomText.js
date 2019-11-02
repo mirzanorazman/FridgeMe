@@ -10,7 +10,9 @@ class CustomText extends Component {
 
   async componentDidMount() {
     await Font.loadAsync({
-      RobotoRegular: require("../resources/fonts/Roboto-Regular.ttf")
+      RobotoRegular: require("../resources/fonts/Roboto-Regular.ttf"),
+      RobotoLight: require("../resources/fonts/Roboto-Light.ttf"),
+      RobotoBold: require("../resources/fonts/Roboto-Bold.ttf")
     });
 
     this.setState({
@@ -31,7 +33,7 @@ class CustomText extends Component {
 const font = {
   text: {
     fontFamily: "RobotoRegular",
-    fontSize: 56
+    fontSize: 30
   }
 };
 
