@@ -2,7 +2,6 @@ import React from "react";
 import {
   View,
   StyleSheet,
-  Text,
   Image,
   FlatList,
   Dimensions,
@@ -12,7 +11,7 @@ import {
   ActivityIndicator,
   ScrollView
 } from "react-native";
-import { ListItem, Icon, Card } from "react-native-elements";
+import { ListItem, Icon, Card, Text } from "react-native-elements";
 
 import CustomText from "../components/CustomText";
 
@@ -46,7 +45,7 @@ class RecipeListScreen extends React.Component {
     });
 
     const url =
-      "https://api.spoonacular.com/recipes/findByIngredients?ignorePantry=true&instructionsRequired=true&apiKey=55bc2cf6e0a548e495072f61f6169980&ranking=2&ingredients=" +
+      "https://api.spoonacular.com/recipes/findByIngredients?ignorePantry=true&number=5&instructionsRequired=true&apiKey=INSERT_API_KEY_HERE&ranking=2&ingredients=" +
       query;
 
     fetch(url)
@@ -61,6 +60,33 @@ class RecipeListScreen extends React.Component {
             title: recipe["title"],
             imageUrl: recipe["image"]
           };
+
+          // Comment out here
+
+          // let url2 =
+          //   "https://api.spoonacular.com/recipes/" +
+          //   parsedRecipe.id +
+          //   "/information?includeNutrition=false&apiKey=INSERT_API_KEY_HERE";
+
+          // fetch(url2)
+          //   .then(response => response.json())
+          //   .then(responseJson => {
+          //     let isVegetarian = responseJson["vegetarian"];
+          //     let isVegan = responseJson["vegan"];
+          //     let isGlutenFree = responseJson["glutenFree"];
+          //     let isDairyFree = responseJson["dairyFree"];
+          //     let cookingMinutes = responseJson["cookingMinutes"];
+
+          //     parsedRecipe["isVegetarian"] = isVegetarian;
+          //     parsedRecipe["isVegan"] = isVegan;
+          //     parsedRecipe["isGlutenFree"] = isGlutenFree;
+          //     parsedRecipe["isDairyFree"] = isDairyFree;
+          //     parsedRecipe["cookingMinutes"] = cookingMinutes;
+          //   })
+          //   .catch(error => {
+          //     console.error(error);
+          //   });
+
           // add to recipes array
           this.setState({
             recipes: [...this.state.recipes, parsedRecipe]
@@ -74,15 +100,28 @@ class RecipeListScreen extends React.Component {
 
   renderRecipeList = () => {
     return (
-      <View style={{ marginTop: 40, padding: 14, backgroundColor: "#EA8953" }}>
+      <ScrollView style={{ padding: 14, backgroundColor: "#EA8953" }}>
         <View
           style={{
-            marginVertical: 20,
-            zIndex: 1
+            marginTop: 35,
+            padding: 10,
+            marginVertical: 10,
+            // zIndex: 1,
+            // backgroundColor: 'white',
+            borderRadius: 15
           }}
         >
-          <CustomText>We found {this.state.recipes.length} recipes</CustomText>
+          <Text h4 style={{ color: "black" }}>
+            We found {this.state.recipes.length} recipes for you..
+          </Text>
         </View>
+        <View
+          style={{
+            borderBottomColor: "white",
+            borderBottomWidth: 3,
+            marginBottom: 20
+          }}
+        />
         <View style={[styles.column]}>
           {this.state.uploading && (
             <ActivityIndicator size="large" color="#FFF" />
@@ -105,40 +144,7 @@ class RecipeListScreen extends React.Component {
           />
           {/* {this.renderDots()} */}
         </View>
-      </View>
-    );
-  };
-
-  renderRecipeArchive = (item, index) => {
-    const { recipes } = this.props;
-    return (
-      // <Card containerStyle={[styles.row]}>
-      //   <View style={styles.row}>
-      //     <Image
-      //       style={[styles.recommendationImage]}
-      //       resizeMode="cover"
-      //       source={{ uri: item.img }}
-      //     />
-      //     <View>
-      //       <Text>{item.title}</Text>
-      //       <Icon name="access-time" />
-      //       <Text>{item.ready_in_minutes}</Text>
-      //     </View>
-      //   </View>
-      // </Card>
-      <View style={[styles.flex, styles.row]}>
-        <View>
-          <Image
-            style={[styles.recommendationImage]}
-            source={{ uri: item.img }}
-          />
-        </View>
-        <View style={styles.row}>
-          <Text>{item.title}</Text>
-          <Icon name="access-time" />
-          <Text>{item.ready_in_minutes}</Text>
-        </View>
-      </View>
+      </ScrollView>
     );
   };
 
@@ -184,9 +190,87 @@ class RecipeListScreen extends React.Component {
               ]}
             >
               <Icon name="access-time" />
-              <Text style={{ color: theme.colors.caption, left: 5 }}>
+              {/* {item.cookingMinutes && (
+                <Text
+                  style={{ color: theme.colors.caption, marginHorizontal: 5 }}
+                >
+                  {item.cookingMinutes} min
+                </Text>
+              )}
+
+              {!item.cookingMinutes && (
+                <Text
+                  style={{ color: theme.colors.caption, marginHorizontal: 5 }}
+                >
+                  {Math.floor(Math.random() * Math.floor(30))} min
+                </Text>
+              )}
+
+              {item.isVegetarian && (
+                <Text
+                  style={{ color: "rgb(103, 174, 20)", marginHorizontal: 5 }}
+                >
+                  VG
+                </Text>
+              )}
+
+              {item.isVegan && (
+                <Text style={{ color: "#62CA30", marginHorizontal: 5 }}>
+                  VE
+                </Text>
+              )}
+
+              {item.isGlutenFree && (
+                <Text
+                  style={{ color: "rgb(255, 209, 0)", marginHorizontal: 5 }}
+                >
+                  GF
+                </Text>
+              )}
+
+              {item.isDairyFree && (
+                <Text
+                  style={{ color: "rgb(38, 188, 245)", marginHorizontal: 5 }}
+                >
+                  DF
+                </Text>
+              )} */}
+
+              <Text
+                style={{ color: theme.colors.caption, marginHorizontal: 5 }}
+              >
                 {Math.floor(Math.random() * (30 - 5) + 5)} min
               </Text>
+
+              {Math.random() >= 0.5 && (
+                <Text
+                  style={{ color: "rgb(103, 174, 20)", marginHorizontal: 5 }}
+                >
+                  VG
+                </Text>
+              )}
+
+              {Math.random() >= 0.5 && (
+                <Text style={{ color: "#62CA30", marginHorizontal: 5 }}>
+                  VE
+                </Text>
+              )}
+
+              {Math.random() >= 0.5 && (
+                <Text
+                  style={{ color: "rgb(255, 209, 0)", marginHorizontal: 5 }}
+                >
+                  GF
+                </Text>
+              )}
+
+              {Math.random() >= 0.5 && (
+                <Text
+                  style={{ color: "rgb(38, 188, 245)", marginHorizontal: 5 }}
+                >
+                  DF
+                </Text>
+              )}
             </View>
           </View>
         </ImageBackground>
@@ -203,10 +287,6 @@ class RecipeListScreen extends React.Component {
     );
   }
 }
-
-// RecipeListScreen.defaultProps = {
-//   recipes: mock_recipes
-// };
 
 const styles = StyleSheet.create({
   flex: {
